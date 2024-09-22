@@ -133,3 +133,6 @@ dmypy.json
 
 # Ruff settings
 pyproject.toml
+
+# folder for copy of database for postman
+z_db_copy/
