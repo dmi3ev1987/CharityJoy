@@ -1,13 +1,19 @@
 from datetime import datetime
 from typing import Optional
 
-from pydantic import BaseModel, Field, PositiveInt
+from pydantic import BaseModel, Extra, Field, PositiveInt, validator
 
 
 class CharityProjectBase(BaseModel):
-    name: Optional[str] = Field(..., max_length=100)
+    name: Optional[str] = Field(None, max_length=100)
     description: Optional[str] = Field(None)
     full_amount: Optional[PositiveInt] = Field(None)
+
+    @validator('name', 'description')
+    def check_not_empty(cls, value):
+        if not value:
+            raise ValueError(f'{value.capitalize()} is empty')
+        return value
 
 
 class CharityProjectCreate(CharityProjectBase):
@@ -18,7 +24,8 @@ class CharityProjectCreate(CharityProjectBase):
 
 
 class CharityProjectUpdate(CharityProjectBase):
-    pass
+    class Config:
+        extra = Extra.forbid
 
 
 class CharityProjectDB(CharityProjectCreate):

@@ -13,15 +13,12 @@ class DonationCreate(DonationBase):
     create_date: datetime = Field(default_factory=datetime.now)
 
 
-class DonationSortDB(DonationCreate):
+class DonationDB(DonationCreate):
     id: int
-
-    class Config:
-        orm_mode = True
-
-
-class DonationFullDB(DonationSortDB):
     user_id: int
     invested_amount: int
     fully_invested: bool
     close_date: Optional[datetime] = Field(None)
+
+    class Config:
+        orm_mode = True

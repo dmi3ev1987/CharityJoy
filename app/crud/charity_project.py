@@ -14,5 +14,11 @@ class CRUDCharityProject(CRUDBase):
         )
         return projects.scalars().all()
 
+    async def get_project_by_name(self, name: str, session: AsyncSession):
+        project = await session.execute(
+            select(CharityProject).where(CharityProject.name == name)
+        )
+        return project.scalars().first()
+
 
 charityproject_crud = CRUDCharityProject(CharityProject)
